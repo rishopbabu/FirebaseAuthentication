@@ -75,13 +75,13 @@
 			children = (
 				6A8A51B62847729B00A3A291 /* AppDelegate.swift */,
 				6A8A51B82847729B00A3A291 /* SceneDelegate.swift */,
+				6AE7CD9C2847C9F30016EB80 /* Constants.swift */,
 				6A8A51D02847948A00A3A291 /* View Controllers */,
 				6A8A51BC2847729C00A3A291 /* Main.storyboard */,
 				6A8A51BF2847729E00A3A291 /* Assets.xcassets */,
 				6A8A51C12847729E00A3A291 /* LaunchScreen.storyboard */,
 				6A8A51C42847729E00A3A291 /* Info.plist */,
 				6AE7CD9A2847B4100016EB80 /* GoogleService-Info.plist */,
-				6AE7CD9C2847C9F30016EB80 /* Constants.swift */,
 			);
 			path = "Firebase Authentication";
 			sourceTree = "<group>";

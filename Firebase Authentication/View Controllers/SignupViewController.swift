@@ -35,13 +35,30 @@ class SignupViewController: UIViewController {
             return "Please fill all the fields."
         }
         
-        let cleanPassword = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        if isPasswordValid(cleanPassword) == false {
-            return "Password must be 8 characters & should contain one special character and one number"
+        guard let email = emailTextField.text, !email.isEmpty else {
+            return nil
         }
         
-        return nil
+        let cleanEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanPassword = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if isValidEmail(cleanEmail) == false {
+            return "Invalid email format."
+        } else if isPasswordValid(cleanPassword) == false {
+            return "Password must be 8 characters & should contain one special character and one number"
+        } else {
+            return nil
+        }
+        //return nil
+    }
+    
+    //email validation
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
     }
     
     //password validation
@@ -103,5 +120,4 @@ class SignupViewController: UIViewController {
             }
         }
     }
-    
 }
