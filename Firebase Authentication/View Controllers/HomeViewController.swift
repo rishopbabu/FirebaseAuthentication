@@ -26,8 +26,8 @@ class HomeViewController: UIViewController {
     }
     
     func fetchUserDetails() {
-        let uid = Auth.auth().currentUser?.providerData[indexPath.row]
-        userNameLabel.text = uid?.
+        let uid = Auth.auth().currentUser?.uid
+        
         
         userNameLabel.text = uid
     }
