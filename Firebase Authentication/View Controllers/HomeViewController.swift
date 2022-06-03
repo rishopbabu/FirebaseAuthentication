@@ -6,24 +6,58 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseStorage
 
 class HomeViewController: UIViewController {
 
+    @IBOutlet weak var welcomeLabel: UILabel!
+    @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var profilePicture: UIImageView!
+    
+    @IBOutlet weak var signoutButton: UIButton!
+    
+    @IBOutlet weak var deleteAccountButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        fetchUserDetails()
+        
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func fetchUserDetails() {
+        let uid = Auth.auth().currentUser?.providerData[indexPath.row]
+        userNameLabel.text = uid?.
+        
+        userNameLabel.text = uid
     }
-    */
+    
+    @IBAction func signoutTapped(_ sender: Any) {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+        } catch let signOutError as NSError {
+            print("Error sigining out:", signOutError)
+        }
+        let navigationController = self.storyboard?.instantiateViewController(identifier: Constants.Storyboard.navigationController) as? ViewController
+        self.view.window?.rootViewController = navigationController
+        self.view.window?.makeKeyAndVisible()
+        print("signed out succesfully")
+    }
+    
+    @IBAction func deleteAccountTapped(_ sender: Any) {
+        
+        let user = Auth.auth().currentUser
 
+        user?.delete { error in
+          if let error = error {
+              print("Error: \(error.localizedDescription)")
+          } else {
+            print("Account deleted sucessfully")
+              let navigationController = self.storyboard?.instantiateViewController(identifier: Constants.Storyboard.navigationController) as? ViewController
+              self.view.window?.rootViewController = navigationController
+              self.view.window?.makeKeyAndVisible()
+          }
+        }
+    }
 }

@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseAuth
 import Firebase
+import FirebaseStorage
 
 class SignupViewController: UIViewController {
     
@@ -17,13 +18,29 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var profileImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         errorLabel.alpha = 0
+        profileImage.image = UIImage(systemName: "person")
+        profileImage.contentMode = .scaleAspectFit
+        profileImage.isUserInteractionEnabled = true
+        profileImage.layer.masksToBounds = true
+        profileImage.layer.borderWidth = 2
+        profileImage.layer.borderColor = UIColor.lightGray.cgColor
+        
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapChangeProfileImage))
+        profileImage.addGestureRecognizer(gesture)
     }
     
+    @objc private func didTapChangeProfileImage() {
+        
+        presentPhotoActionSheet()
+        print("profile pic tapped")
+    }
     
     //check the fields and validate the data.
     func validateFields() -> String? {
@@ -114,10 +131,73 @@ class SignupViewController: UIViewController {
                             self.showError("error saving user data")
                         }
                     }
+                    
+                    guard let image = self.profileImage.image, let data = image.pngData() else {
+                        return
+                    }
+                    //upload profile picture
+                    let filename = "\(email)_profile_picture.png"
+                    StorageManager.shared.uploadProfilePicture(with: data, fileName: filename, completion: { results in
+                        switch results {
+                        case .success(let downloadUrl):
+                            UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
+                            print(downloadUrl)
+                        case .failure(let error):
+                            print("storage manager error:\(error)")
+                        }
+                    })
                 }
+                
+
                 //redirect to the home screen
                 self.transitionToHome()
             }
         }
+    }
+}
+
+
+extension SignupViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func presentPhotoActionSheet() {
+        let actionsheet = UIAlertController(title: "Profile Picture", message: "Camera/Gallery", preferredStyle: .actionSheet)
+        
+        actionsheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionsheet.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { [weak self] _ in
+            self?.presentCamera()
+        }))
+        actionsheet.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { [weak self] _ in
+            self?.presentPhotoPicker()
+        }))
+        
+        present(actionsheet, animated: true)
+    }
+    
+    func presentCamera() {
+        let vc = UIImagePickerController()
+        vc.delegate = self
+        vc.sourceType = .camera
+        vc.allowsEditing = true
+        present(vc, animated: true)
+    }
+    
+    func presentPhotoPicker() {
+        let vc = UIImagePickerController()
+        vc.delegate = self
+        vc.sourceType = .photoLibrary
+        vc.allowsEditing = true
+        present(vc, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
+            return
+        }
+        self.profileImage.image = selectedImage
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
 }
