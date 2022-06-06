@@ -26,10 +26,17 @@ class HomeViewController: UIViewController {
     }
     
     func fetchUserDetails() {
-        let uid = Auth.auth().currentUser?.uid
+        let user = Auth.auth().currentUser
+        if let user = user {
+            //let uid = user.uid
+            let name = user.email
+            
+            self.userNameLabel.text = name
+        }
+    }
+    
+    func fetchUserProfilePicture() {
         
-        
-        userNameLabel.text = uid
     }
     
     @IBAction func signoutTapped(_ sender: Any) {
@@ -59,5 +66,13 @@ class HomeViewController: UIViewController {
               self.view.window?.makeKeyAndVisible()
           }
         }
+        
+        //delete profile picture
+        guard let image = self.profilePicture.image, let data = image.pngData() else {
+            return
+        }
+        let filename = "\(String(describing: self.userNameLabel.text))_profile_picture.png"
+        StorageManager.shared.deleteProfilePicture(with: data, fileName: filename)
+        
     }
 }

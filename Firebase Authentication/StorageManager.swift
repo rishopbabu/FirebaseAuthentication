@@ -16,6 +16,8 @@ final class StorageManager {
     
     public typealias uploadPictureCompletion = (Result<String, Error>) -> Void
     
+    public typealias deleteProfileCompletion = (Result<String, Error>) -> Void
+    
     public func uploadProfilePicture(with data: Data, fileName: String, completion: @escaping uploadPictureCompletion) {
         storage.child("images/\(fileName)").putData(data, metadata: nil, completion: { metadata, error in
             guard error == nil else {
@@ -40,5 +42,15 @@ final class StorageManager {
     public enum StorageErrors: Error {
         case failedToUpload
         case failedToGetDownloadURL
+    }
+    
+    public func deleteProfilePicture(with data: Data, fileName: String) {
+        storage.child("images/\(fileName)").delete { error in
+            if let error = error {
+                print("Error Occured in deleting profile picture: \(error.localizedDescription)")
+            } else {
+                print("Deleted sucessfully.")
+            }
+        }
     }
 }

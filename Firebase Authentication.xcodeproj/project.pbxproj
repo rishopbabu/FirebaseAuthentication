@@ -18,7 +18,7 @@
 		6A8A51CB2847735A00A3A291 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8A51CA2847735A00A3A291 /* LoginViewController.swift */; };
 		6A8A51CD2847736E00A3A291 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8A51CC2847736E00A3A291 /* SignupViewController.swift */; };
 		6A8A51CF2847740C00A3A291 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8A51CE2847740C00A3A291 /* HomeViewController.swift */; };
-		6AE7CD9B2847B4100016EB80 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AE7CD9A2847B4100016EB80 /* GoogleService-Info.plist */; };
+		6AD28BB8284DCAA3006AF731 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AD28BB7284DCAA3006AF731 /* GoogleService-Info.plist */; };
 		6AE7CD9D2847C9F30016EB80 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE7CD9C2847C9F30016EB80 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,7 +35,7 @@
 		6A8A51CA2847735A00A3A291 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		6A8A51CC2847736E00A3A291 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		6A8A51CE2847740C00A3A291 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		6AE7CD9A2847B4100016EB80 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6AD28BB7284DCAA3006AF731 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6AE7CD9C2847C9F30016EB80 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9E3908E34CCFDD86B2A2BBCA /* Pods_Firebase_Authentication.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Firebase_Authentication.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4855AAA6A0AB9BAE2EB0219 /* Pods-Firebase Authentication.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase Authentication.debug.xcconfig"; path = "Target Support Files/Pods-Firebase Authentication/Pods-Firebase Authentication.debug.xcconfig"; sourceTree = "<group>"; };
@@ -84,7 +84,7 @@
 				6A8A51BF2847729E00A3A291 /* Assets.xcassets */,
 				6A8A51C12847729E00A3A291 /* LaunchScreen.storyboard */,
 				6A8A51C42847729E00A3A291 /* Info.plist */,
-				6AE7CD9A2847B4100016EB80 /* GoogleService-Info.plist */,
+				6AD28BB7284DCAA3006AF731 /* GoogleService-Info.plist */,
 			);
 			path = "Firebase Authentication";
 			sourceTree = "<group>";
@@ -178,7 +178,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A8A51C32847729E00A3A291 /* LaunchScreen.storyboard in Resources */,
-				6AE7CD9B2847B4100016EB80 /* GoogleService-Info.plist in Resources */,
+				6AD28BB8284DCAA3006AF731 /* GoogleService-Info.plist in Resources */,
 				6A8A51C02847729E00A3A291 /* Assets.xcassets in Resources */,
 				6A8A51BE2847729C00A3A291 /* Main.storyboard in Resources */,
 			);
