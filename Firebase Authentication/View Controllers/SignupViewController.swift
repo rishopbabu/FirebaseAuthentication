@@ -125,16 +125,20 @@ class SignupViewController: UIViewController {
                 else {
                     //User created successfully
                     let db = Firestore.firestore()
-                    
-                    db.collection("users").addDocument(data: ["firstname": firstName, "lastname": lastName, "uid": result!.user.uid]) { (error) in
+                    var ref: DocumentReference? = nil
+                    ref = db.collection("users").addDocument(data: ["firstname": firstName, "lastname": lastName, "uid": result!.user.uid]) { (error) in
                         if err != nil {
                             self.showError("error saving user data")
+                        } else {
+                            print("document id: \(ref!.documentID)")
                         }
                     }
+                    
                     
                     guard let image = self.profileImage.image, let data = image.pngData() else {
                         return
                     }
+                    
                     //upload profile picture
                     let filename = "\(email)_profile_picture.png"
                     StorageManager.shared.uploadProfilePicture(with: data, fileName: filename, completion: { results in
@@ -148,7 +152,6 @@ class SignupViewController: UIViewController {
                     })
                 }
                 
-
                 //redirect to the home screen
                 self.transitionToHome()
             }

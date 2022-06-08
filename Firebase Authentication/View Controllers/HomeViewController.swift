@@ -8,6 +8,8 @@
 import UIKit
 import FirebaseAuth
 import FirebaseStorage
+import FirebaseFirestore
+import FirebaseStorageUI
 
 class HomeViewController: UIViewController {
 
@@ -19,25 +21,56 @@ class HomeViewController: UIViewController {
     
     @IBOutlet weak var deleteAccountButton: UIButton!
     
+    @IBOutlet weak var showUserNameLabel: UILabel!
+    
+    @IBOutlet weak var showLastNameLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchUserDetails()
-        
+        fetchUserProfileImage()
+        fetchNames()
     }
     
     func fetchUserDetails() {
         let user = Auth.auth().currentUser
         if let user = user {
-            //let uid = user.uid
             let name = user.email
-            
             self.userNameLabel.text = name
+            
         }
     }
     
-    func fetchUserProfilePicture() {
-        
+    func fetchNames() {
+        let user = Auth.auth().currentUser
+        let db = Firestore.firestore()
+        db.collection("users").whereField("uid", isEqualTo: user?.uid ?? "").getDocuments(completion: { (querysnapshot, error) in
+            if let error = error {
+                print("error getting document: \(error)")
+            } else {
+                let document = querysnapshot!.documents.first
+                let dataDescription = document?.data()
+                guard let firstname = dataDescription?["firstname"] else { return }
+                guard let lastname = dataDescription?["lastname"] else { return }
+                print(firstname)
+                self.showUserNameLabel.text = firstname as? String
+                self.showLastNameLabel.text = lastname as? String
+                print(lastname)
+            }
+        })
     }
+    
+    func fetchUserProfileImage() {
+        let filename = (Auth.auth().currentUser?.email)! + "_profile_picture.png"
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let reference = storageRef.child("images/\(filename)")
+        
+        let imageView: UIImageView = self.profilePicture
+        imageView.sd_setImage(with: reference)
+        print("image showing")
+    }
+    
     
     @IBAction func signoutTapped(_ sender: Any) {
         let firebaseAuth = Auth.auth()
@@ -54,6 +87,8 @@ class HomeViewController: UIViewController {
     
     @IBAction func deleteAccountTapped(_ sender: Any) {
         
+        deleteUserDetails()
+        
         let user = Auth.auth().currentUser
 
         user?.delete { error in
@@ -67,12 +102,37 @@ class HomeViewController: UIViewController {
           }
         }
         
-        //delete profile picture
-        guard let image = self.profilePicture.image, let data = image.pngData() else {
-            return
-        }
-        let filename = "\(String(describing: self.userNameLabel.text))_profile_picture.png"
-        StorageManager.shared.deleteProfilePicture(with: data, fileName: filename)
+        //delete images
+        let filename = (user?.email)! + "_profile_picture.png"
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let deleteRef = storageRef.child("images/\(filename)")
         
+        deleteRef.delete { error in
+            if let error = error {
+                print("Cant Delete it has an error: \(error)")
+            } else {
+                print("file deleted successfully")
+            }
+        }
+    }
+    
+    func deleteUserDetails() {
+        //delete names
+        let user = Auth.auth().currentUser
+        let db = Firestore.firestore()
+        db.collection("users").whereField("uid", isEqualTo: user?.uid ?? "").getDocuments(completion: { (snapshot, error) in
+            if let error = error {
+                print("error getting document: \(error)")
+            } else {
+                let document = snapshot!.documents.first
+                let dataDescription = document?.data()
+                guard let uid = dataDescription?["uid"] else { return }
+                if uid as! String == user?.uid ?? "" {
+                    db.collection("users").document("\(document?.documentID ?? "")").delete()
+                    print("user details deleted")
+                }
+            }
+        })
     }
 }

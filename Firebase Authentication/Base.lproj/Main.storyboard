@@ -266,11 +266,30 @@
                                     <action selector="deleteAccountTapped:" destination="vwr-cN-bZN" eventType="touchUpInside" id="chE-kZ-1FW"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jw1-i3-ugY">
+                                <rect key="frame" x="50" y="340" width="275" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Jgz-zS-QNV"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T9l-wq-dnO">
+                                <rect key="frame" x="50" y="381" width="275" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="m7n-3f-9JN"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="0Ck-lP-yHL"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="8Y3-rp-md0" firstAttribute="top" secondItem="0Ck-lP-yHL" secondAttribute="top" constant="80" id="0mv-lW-65b"/>
+                            <constraint firstItem="T9l-wq-dnO" firstAttribute="leading" secondItem="0Ck-lP-yHL" secondAttribute="leading" constant="50" id="1IA-OP-Kwu"/>
                             <constraint firstItem="0Ck-lP-yHL" firstAttribute="bottom" secondItem="WTc-Vm-mYc" secondAttribute="bottom" constant="150" id="9Q3-Zp-XdX"/>
                             <constraint firstItem="0Ck-lP-yHL" firstAttribute="trailing" secondItem="WvK-PX-Vp0" secondAttribute="trailing" constant="40" id="B2i-Qh-s9J"/>
                             <constraint firstItem="0Ck-lP-yHL" firstAttribute="trailing" secondItem="8Y3-rp-md0" secondAttribute="trailing" constant="20" id="INP-3p-twp"/>
@@ -279,15 +298,22 @@
                             <constraint firstItem="0Ck-lP-yHL" firstAttribute="trailing" secondItem="1ev-gn-66V" secondAttribute="trailing" constant="50" id="TzV-da-ZmV"/>
                             <constraint firstItem="WvK-PX-Vp0" firstAttribute="top" secondItem="8Y3-rp-md0" secondAttribute="bottom" constant="30" id="XBY-V6-ooT"/>
                             <constraint firstItem="WvK-PX-Vp0" firstAttribute="leading" secondItem="0Ck-lP-yHL" secondAttribute="leading" constant="40" id="fPj-Cd-JMv"/>
+                            <constraint firstItem="jw1-i3-ugY" firstAttribute="top" secondItem="1ev-gn-66V" secondAttribute="bottom" constant="30" id="hyW-KH-s4R"/>
+                            <constraint firstItem="0Ck-lP-yHL" firstAttribute="trailing" secondItem="jw1-i3-ugY" secondAttribute="trailing" constant="50" id="n9x-8k-ArL"/>
                             <constraint firstItem="1ev-gn-66V" firstAttribute="leading" secondItem="0Ck-lP-yHL" secondAttribute="leading" constant="50" id="rLK-uR-etK"/>
+                            <constraint firstItem="T9l-wq-dnO" firstAttribute="top" secondItem="jw1-i3-ugY" secondAttribute="bottom" constant="20" id="tmM-R7-v7y"/>
                             <constraint firstItem="WTc-Vm-mYc" firstAttribute="centerX" secondItem="dtj-gv-pml" secondAttribute="centerX" id="vUo-BA-Rqd"/>
+                            <constraint firstItem="jw1-i3-ugY" firstAttribute="leading" secondItem="0Ck-lP-yHL" secondAttribute="leading" constant="50" id="wvU-Z3-0o4"/>
                             <constraint firstItem="e4L-t9-uTT" firstAttribute="centerX" secondItem="dtj-gv-pml" secondAttribute="centerX" id="wzS-0m-3jy"/>
+                            <constraint firstItem="0Ck-lP-yHL" firstAttribute="trailing" secondItem="T9l-wq-dnO" secondAttribute="trailing" constant="50" id="xy6-xM-vmZ"/>
                             <constraint firstItem="1ev-gn-66V" firstAttribute="top" secondItem="WvK-PX-Vp0" secondAttribute="bottom" constant="20" id="y1C-fv-qW8"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="deleteAccountButton" destination="WTc-Vm-mYc" id="2dE-tl-tuX"/>
                         <outlet property="profilePicture" destination="1ev-gn-66V" id="Cmf-p7-vwm"/>
+                        <outlet property="showLastNameLabel" destination="T9l-wq-dnO" id="DZs-4z-hIH"/>
+                        <outlet property="showUserNameLabel" destination="jw1-i3-ugY" id="z81-2p-yrV"/>
                         <outlet property="signoutButton" destination="e4L-t9-uTT" id="9UQ-5x-qMb"/>
                         <outlet property="userNameLabel" destination="WvK-PX-Vp0" id="tRq-aN-ie3"/>
                         <outlet property="welcomeLabel" destination="8Y3-rp-md0" id="vgX-g6-8kV"/>
