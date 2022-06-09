@@ -16,9 +16,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         errorLabel.alpha = 0
-        
     }
     
     @IBAction func loginTapped(_ sender: Any) {
