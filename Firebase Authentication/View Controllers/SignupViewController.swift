@@ -9,8 +9,10 @@ import UIKit
 import FirebaseAuth
 import Firebase
 import FirebaseStorage
+import MobileCoreServices
+import AVFoundation
 
-class SignupViewController: UIViewController {
+class SignupViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
@@ -31,13 +33,14 @@ class SignupViewController: UIViewController {
         profileImage.layer.borderWidth = 2
         profileImage.layer.borderColor = UIColor.lightGray.cgColor
         
+        let gestureImage = UITapGestureRecognizer(target: self, action: #selector(didTapChangeProfileImage))
+        profileImage.addGestureRecognizer(gestureImage)
         
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapChangeProfileImage))
-        profileImage.addGestureRecognizer(gesture)
+//        let gestureVideo = UITapGestureRecognizer(target: self, action: #selector(didTapChangeProfileVideo))
+//        videoView.addGestureRecognizer(gestureVideo)
     }
     
     @objc private func didTapChangeProfileImage() {
-        
         presentPhotoActionSheet()
         print("profile pic tapped")
     }
@@ -100,7 +103,10 @@ class SignupViewController: UIViewController {
     }
     
     @IBAction func signUpTapped(_ sender: Any) {
-        
+        createUser()
+    }
+    
+    func createUser() {
         //validate the fields
         let error = validateFields()
         if error != nil {
@@ -109,59 +115,57 @@ class SignupViewController: UIViewController {
         
         //create the user
         else {
-            
-            //refrences
-            let firstName = firstNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            let lastName = lastNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            
-            Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
-                
-                //check for errors
-                if err != nil {
-                    self.showError("error in creating user")
-                }
-                else {
-                    //User created successfully
-                    let db = Firestore.firestore()
-                    var ref: DocumentReference? = nil
-                    ref = db.collection("users").addDocument(data: ["firstname": firstName, "lastname": lastName, "uid": result!.user.uid]) { (error) in
-                        if err != nil {
-                            self.showError("error saving user data")
-                        } else {
-                            print("document id: \(ref!.documentID)")
-                        }
-                    }
-                    
-                    
-                    guard let image = self.profileImage.image, let data = image.pngData() else {
-                        return
-                    }
-                    
-                    //upload profile picture
-                    let filename = "\(email)_profile_picture.png"
-                    StorageManager.shared.uploadProfilePicture(with: data, fileName: filename, completion: { results in
-                        switch results {
-                        case .success(let downloadUrl):
-                            UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
-                            print(downloadUrl)
-                        case .failure(let error):
-                            print("storage manager error:\(error)")
-                        }
-                    })
-                }
-                
-                //redirect to the home screen
-                self.transitionToHome()
-            }
+            userCreated()
         }
     }
-}
-
-
-extension SignupViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    func userCreated() {
+        //refrences
+        let firstName = firstNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let lastName = lastNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
+            //check for errors
+            if err != nil {
+                self.showError("error in creating user")
+            }
+            else {
+                //User created successfully
+                let db = Firestore.firestore()
+                var ref: DocumentReference? = nil
+                ref = db.collection("users").addDocument(data: ["firstname": firstName, "lastname": lastName, "uid": result!.user.uid]) { (error) in
+                    if err != nil {
+                        self.showError("error saving user data")
+                    } else {
+                        print("document id: \(ref!.documentID)")
+                    }
+                }
+                //upload profile picture and Video
+                self.uploadProfilePicture()
+            }
+            //redirect to the home screen
+            self.transitionToHome()
+        }
+    }
+    
+    func uploadProfilePicture() {
+        guard let image = self.profileImage.image, let data = image.pngData() else {
+            return
+        }
+        let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let profileName = "\(email)_profile_picture.png"
+        StorageManager.shared.uploadProfilePicture(with: data, fileName: profileName, completion: { results in
+            switch results {
+            case .success(let downloadUrl):
+                UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
+                print(downloadUrl)
+            case .failure(let error):
+                print("storage manager error:\(error)")
+            }
+        })
+    }
+        
     func presentPhotoActionSheet() {
         let actionsheet = UIAlertController(title: "Profile Picture", message: "Camera/Gallery", preferredStyle: .actionSheet)
         
@@ -175,6 +179,20 @@ extension SignupViewController: UIImagePickerControllerDelegate, UINavigationCon
         
         present(actionsheet, animated: true)
     }
+    
+//    func presentVideoActionSheet() {
+//        let actionsheet = UIAlertController(title: "Profile Video", message: "Camera/Gallery", preferredStyle: .actionSheet)
+//
+//        actionsheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//        actionsheet.addAction(UIAlertAction(title: "Take Video", style: .default, handler: { [weak self] _ in
+//            self?.presentCamera()
+//        }))
+//        actionsheet.addAction(UIAlertAction(title: "Choose Video", style: .default, handler: { [weak self] _ in
+//            self?.presentVideoPicker()
+//        }))
+//
+//        present(actionsheet, animated: true)
+//    }
     
     func presentCamera() {
         let vc = UIImagePickerController()
@@ -192,13 +210,28 @@ extension SignupViewController: UIImagePickerControllerDelegate, UINavigationCon
         present(vc, animated: true)
     }
     
+//    func presentVideoPicker() {
+//        let vc = UIImagePickerController()
+//        vc.delegate = self
+//        vc.sourceType = .photoLibrary
+//        vc.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
+//        vc.allowsEditing = true
+//        present(vc, animated: true)
+//    }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+//        if let videoUrl = info[UIImagePickerController.InfoKey.mediaURL] as? NSURL {
+//            uploadProfileVideo(url: videoUrl)
+//        }
         picker.dismiss(animated: true, completion: nil)
+    
         guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
             return
         }
         self.profileImage.image = selectedImage
     }
+    
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)

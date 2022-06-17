@@ -104,15 +104,24 @@ class HomeViewController: UIViewController {
         
         //delete images
         let filename = (user?.email)! + "_profile_picture.png"
+        let videoname = (user?.email)! + "_profile_video.mov"
         let storage = Storage.storage()
         let storageRef = storage.reference()
-        let deleteRef = storageRef.child("images/\(filename)")
-        
-        deleteRef.delete { error in
+        let deleteImage = storageRef.child("images/\(filename)")
+        let deleteVideo = storageRef.child("videos/\(videoname)")
+        deleteImage.delete { error in
             if let error = error {
-                print("Cant Delete it has an error: \(error)")
+                print("Cant Delete profile image it has an error: \(error)")
             } else {
-                print("file deleted successfully")
+                print("Profile image deleted successfully")
+            }
+        }
+        
+        deleteVideo.delete {error in
+            if let error = error {
+                print("Cant Delete profile video it has an error: \(error)")
+            } else {
+                print("Profile video deleted successfully")
             }
         }
     }

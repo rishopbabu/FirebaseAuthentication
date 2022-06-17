@@ -17,6 +17,12 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-
+    @IBAction func signupdidTapped(_ sender: Any) {
+        HapticManager.shared.Vibrate(for: .success)
+    }
+    @IBAction func logindidTapped(_ sender: Any) {
+        HapticManager.shared.selectionVibrate()
+    }
+    
 }
 
