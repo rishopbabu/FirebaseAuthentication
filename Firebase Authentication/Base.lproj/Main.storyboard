@@ -288,21 +288,30 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xpT-1I-vdC">
-                                <rect key="frame" x="50" y="382" width="275" height="35"/>
+                                <rect key="frame" x="50" y="532" width="275" height="35"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="SSO-cd-I2E"/>
+                                    <constraint firstAttribute="height" constant="35" id="Xfh-A0-pZy"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Click here to Upload Video"/>
+                                <connections>
+                                    <action selector="uploadVideoTapped:" destination="vwr-cN-bZN" eventType="touchUpInside" id="e22-ey-An2"/>
+                                </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NVh-6d-VY9">
+                                <rect key="frame" x="100" y="342" width="175" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="WOR-mM-qns"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="0Ck-lP-yHL"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="xpT-1I-vdC" firstAttribute="top" secondItem="sAl-89-dzT" secondAttribute="bottom" constant="50" id="14z-u1-ran"/>
                             <constraint firstItem="8Y3-rp-md0" firstAttribute="top" secondItem="0Ck-lP-yHL" secondAttribute="top" constant="20" id="3ba-yS-bou"/>
                             <constraint firstItem="e4L-t9-uTT" firstAttribute="leading" secondItem="0Ck-lP-yHL" secondAttribute="leading" constant="20" id="7OH-ca-riO"/>
                             <constraint firstItem="WvK-PX-Vp0" firstAttribute="top" secondItem="8Y3-rp-md0" secondAttribute="bottom" constant="5" id="87B-ck-kHl"/>
+                            <constraint firstItem="e4L-t9-uTT" firstAttribute="top" secondItem="xpT-1I-vdC" secondAttribute="bottom" constant="5" id="9Cz-gR-Ved"/>
                             <constraint firstItem="jw1-i3-ugY" firstAttribute="leading" secondItem="0Ck-lP-yHL" secondAttribute="leading" constant="40" id="JQU-O3-3Oc"/>
                             <constraint firstItem="WTc-Vm-mYc" firstAttribute="leading" secondItem="0Ck-lP-yHL" secondAttribute="leading" constant="20" id="KcQ-Nf-Xnt"/>
                             <constraint firstItem="0Ck-lP-yHL" firstAttribute="trailing" secondItem="8Y3-rp-md0" secondAttribute="trailing" constant="20" id="LKC-aV-NHg"/>
@@ -310,16 +319,19 @@
                             <constraint firstItem="sAl-89-dzT" firstAttribute="leading" secondItem="0Ck-lP-yHL" secondAttribute="leading" constant="20" id="Qud-I1-hja"/>
                             <constraint firstItem="T9l-wq-dnO" firstAttribute="leading" secondItem="0Ck-lP-yHL" secondAttribute="leading" constant="40" id="SIJ-Ex-xp8"/>
                             <constraint firstItem="8Y3-rp-md0" firstAttribute="leading" secondItem="0Ck-lP-yHL" secondAttribute="leading" constant="20" id="T5T-KL-4jk"/>
+                            <constraint firstItem="NVh-6d-VY9" firstAttribute="leading" secondItem="0Ck-lP-yHL" secondAttribute="leading" constant="100" id="VMt-KO-lWL"/>
                             <constraint firstItem="0Ck-lP-yHL" firstAttribute="bottom" secondItem="WTc-Vm-mYc" secondAttribute="bottom" constant="20" id="Xg5-Ez-J33"/>
+                            <constraint firstItem="xpT-1I-vdC" firstAttribute="leading" secondItem="0Ck-lP-yHL" secondAttribute="leading" constant="50" id="cZN-rK-6vh"/>
+                            <constraint firstItem="0Ck-lP-yHL" firstAttribute="trailing" secondItem="xpT-1I-vdC" secondAttribute="trailing" constant="50" id="dEi-QW-1u6"/>
                             <constraint firstItem="0Ck-lP-yHL" firstAttribute="trailing" secondItem="e4L-t9-uTT" secondAttribute="trailing" constant="20" id="dEt-3s-JsI"/>
+                            <constraint firstItem="NVh-6d-VY9" firstAttribute="top" secondItem="sAl-89-dzT" secondAttribute="bottom" constant="10" id="fzv-Qt-Q6P"/>
                             <constraint firstItem="WTc-Vm-mYc" firstAttribute="top" secondItem="e4L-t9-uTT" secondAttribute="bottom" constant="5" id="hPc-Sg-EJJ"/>
                             <constraint firstItem="WvK-PX-Vp0" firstAttribute="leading" secondItem="0Ck-lP-yHL" secondAttribute="leading" constant="40" id="hez-Lu-3JL"/>
                             <constraint firstItem="T9l-wq-dnO" firstAttribute="top" secondItem="jw1-i3-ugY" secondAttribute="bottom" constant="5" id="kDq-Wd-ZAC"/>
+                            <constraint firstItem="0Ck-lP-yHL" firstAttribute="trailing" secondItem="NVh-6d-VY9" secondAttribute="trailing" constant="100" id="kd3-gj-MsI"/>
                             <constraint firstItem="0Ck-lP-yHL" firstAttribute="trailing" secondItem="jw1-i3-ugY" secondAttribute="trailing" constant="40" id="nE3-Ff-H4t"/>
-                            <constraint firstItem="xpT-1I-vdC" firstAttribute="leading" secondItem="0Ck-lP-yHL" secondAttribute="leading" constant="50" id="qbS-N1-8db"/>
                             <constraint firstItem="0Ck-lP-yHL" firstAttribute="trailing" secondItem="T9l-wq-dnO" secondAttribute="trailing" constant="40" id="ryE-Qj-31H"/>
                             <constraint firstItem="0Ck-lP-yHL" firstAttribute="trailing" secondItem="WTc-Vm-mYc" secondAttribute="trailing" constant="20" id="ryf-E0-Nj0"/>
-                            <constraint firstItem="0Ck-lP-yHL" firstAttribute="trailing" secondItem="xpT-1I-vdC" secondAttribute="trailing" constant="50" id="t5J-Db-ca0"/>
                             <constraint firstItem="sAl-89-dzT" firstAttribute="top" secondItem="T9l-wq-dnO" secondAttribute="bottom" constant="5" id="y2g-dw-uWi"/>
                             <constraint firstItem="jw1-i3-ugY" firstAttribute="top" secondItem="WvK-PX-Vp0" secondAttribute="bottom" constant="5" id="zO9-MB-xdT"/>
                             <constraint firstItem="0Ck-lP-yHL" firstAttribute="trailing" secondItem="WvK-PX-Vp0" secondAttribute="trailing" constant="40" id="zOm-wj-wfP"/>
@@ -327,10 +339,13 @@
                     </view>
                     <connections>
                         <outlet property="deleteAccountButton" destination="WTc-Vm-mYc" id="2dE-tl-tuX"/>
+                        <outlet property="profilePicture" destination="sAl-89-dzT" id="ROf-dB-8OY"/>
                         <outlet property="showLastNameLabel" destination="T9l-wq-dnO" id="DZs-4z-hIH"/>
                         <outlet property="showUserNameLabel" destination="jw1-i3-ugY" id="z81-2p-yrV"/>
                         <outlet property="signoutButton" destination="e4L-t9-uTT" id="9UQ-5x-qMb"/>
+                        <outlet property="uploadVideoButton" destination="xpT-1I-vdC" id="gcY-Ul-whm"/>
                         <outlet property="userNameLabel" destination="WvK-PX-Vp0" id="tRq-aN-ie3"/>
+                        <outlet property="viewVideo" destination="NVh-6d-VY9" id="TQI-Z2-faw"/>
                         <outlet property="welcomeLabel" destination="8Y3-rp-md0" id="vgX-g6-8kV"/>
                     </connections>
                 </viewController>

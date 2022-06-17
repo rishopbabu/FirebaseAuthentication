@@ -36,15 +36,13 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
         let gestureImage = UITapGestureRecognizer(target: self, action: #selector(didTapChangeProfileImage))
         profileImage.addGestureRecognizer(gestureImage)
         
-//        let gestureVideo = UITapGestureRecognizer(target: self, action: #selector(didTapChangeProfileVideo))
-//        videoView.addGestureRecognizer(gestureVideo)
     }
     
     @objc private func didTapChangeProfileImage() {
         presentPhotoActionSheet()
         print("profile pic tapped")
     }
-    
+        
     //check the fields and validate the data.
     func validateFields() -> String? {
         
@@ -143,6 +141,7 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
                 }
                 //upload profile picture and Video
                 self.uploadProfilePicture()
+                //self.uploadProfileVideo()
             }
             //redirect to the home screen
             self.transitionToHome()
@@ -165,7 +164,11 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
             }
         })
     }
+    
+    func uploadProfileVideo(url: NSURL) {
         
+    }
+    
     func presentPhotoActionSheet() {
         let actionsheet = UIAlertController(title: "Profile Picture", message: "Camera/Gallery", preferredStyle: .actionSheet)
         
@@ -180,19 +183,6 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
         present(actionsheet, animated: true)
     }
     
-//    func presentVideoActionSheet() {
-//        let actionsheet = UIAlertController(title: "Profile Video", message: "Camera/Gallery", preferredStyle: .actionSheet)
-//
-//        actionsheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-//        actionsheet.addAction(UIAlertAction(title: "Take Video", style: .default, handler: { [weak self] _ in
-//            self?.presentCamera()
-//        }))
-//        actionsheet.addAction(UIAlertAction(title: "Choose Video", style: .default, handler: { [weak self] _ in
-//            self?.presentVideoPicker()
-//        }))
-//
-//        present(actionsheet, animated: true)
-//    }
     
     func presentCamera() {
         let vc = UIImagePickerController()
@@ -210,20 +200,10 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
         present(vc, animated: true)
     }
     
-//    func presentVideoPicker() {
-//        let vc = UIImagePickerController()
-//        vc.delegate = self
-//        vc.sourceType = .photoLibrary
-//        vc.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
-//        vc.allowsEditing = true
-//        present(vc, animated: true)
-//    }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-//        if let videoUrl = info[UIImagePickerController.InfoKey.mediaURL] as? NSURL {
-//            uploadProfileVideo(url: videoUrl)
-//        }
+
         picker.dismiss(animated: true, completion: nil)
     
         guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
@@ -231,7 +211,6 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
         }
         self.profileImage.image = selectedImage
     }
-    
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)

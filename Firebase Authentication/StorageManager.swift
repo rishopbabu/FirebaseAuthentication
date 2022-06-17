@@ -16,7 +16,7 @@ final class StorageManager {
     
     public typealias uploadPictureCompletion = (Result<String, Error>) -> Void
     
-    public typealias uploadVideoCompletion = (Result<String, Error>) -> Void
+//    public typealias uploadVideoCompletion = (Result<String, Error>) -> Void
     
     public typealias deleteProfileCompletion = (Result<String, Error>) -> Void
     
@@ -61,25 +61,25 @@ final class StorageManager {
 //            })
 //        })
 //    }
-    public func uploadProfileVideo(with url: URL, filename: String, completion: @escaping uploadVideoCompletion) {
-        storage.child("videos/\(filename)").putFile(from: url, metadata: nil, completion: { metadata, error in
-            guard error == nil else {
-                print("Failed to upload image")
-                completion(.failure(StorageErrors.failedToUpload))
-                return
-            }
-            self.storage.child("videos/\(filename)").downloadURL(completion: { url, error in
-                            guard let url = url else {
-                                print("failed to get url")
-                                completion(.failure(StorageErrors.failedToGetDownloadURL))
-                                return
-                            }
-                            let urlString = url.absoluteString
-                            print("Download url returned: \(urlString)")
-                            completion(.success(urlString))
-                        })
-        })
-    }
+//    public func uploadProfileVideo(with url: URL, filename: String, completion: @escaping uploadVideoCompletion) {
+//        storage.child("videos/\(filename)").putFile(from: url, metadata: nil, completion: { metadata, error in
+//            guard error == nil else {
+//                print("Failed to upload image")
+//                completion(.failure(StorageErrors.failedToUpload))
+//                return
+//            }
+//            self.storage.child("videos/\(filename)").downloadURL(completion: { url, error in
+//                            guard let url = url else {
+//                                print("failed to get url")
+//                                completion(.failure(StorageErrors.failedToGetDownloadURL))
+//                                return
+//                            }
+//                            let urlString = url.absoluteString
+//                            print("Download url returned: \(urlString)")
+//                            completion(.success(urlString))
+//                        })
+//        })
+//    }
     
     public func downloadURL(for path: String, completion: @escaping (Result<URL, Error>) -> Void) {
         let reference = storage.child(path)

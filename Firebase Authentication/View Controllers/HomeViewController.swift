@@ -10,12 +10,20 @@ import FirebaseAuth
 import FirebaseStorage
 import FirebaseFirestore
 import FirebaseStorageUI
+import MobileCoreServices
+import AVFoundation
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var welcomeLabel: UILabel!
+    
     @IBOutlet weak var userNameLabel: UILabel!
+    
     @IBOutlet weak var profilePicture: UIImageView!
+    
+    @IBOutlet weak var uploadVideoButton: UIButton!
+    
+    @IBOutlet weak var viewVideo: UIImageView!
     
     @IBOutlet weak var signoutButton: UIButton!
     
@@ -30,6 +38,21 @@ class HomeViewController: UIViewController {
         fetchUserDetails()
         fetchUserProfileImage()
         fetchNames()
+        
+        viewVideo.image = UIImage(systemName: "video.circle")
+        viewVideo.contentMode = .scaleAspectFit
+        viewVideo.isUserInteractionEnabled = true
+        viewVideo.layer.masksToBounds = true
+        viewVideo.layer.borderWidth = 2
+        viewVideo.layer.borderColor = UIColor.lightGray.cgColor
+        
+        let gestureVideo = UITapGestureRecognizer(target: self, action: #selector(didTapChangeProfileVideo))
+        viewVideo.addGestureRecognizer(gestureVideo)
+    }
+    
+    @objc private func didTapChangeProfileVideo() {
+        presentVideoActionSheet()
+        print("profile video tapped")
     }
     
     func fetchUserDetails() {
@@ -71,6 +94,84 @@ class HomeViewController: UIViewController {
         print("image showing")
     }
     
+    func presentVideoActionSheet() {
+        let actionsheet = UIAlertController(title: "Profile Video", message: "Camera/Gallery", preferredStyle: .actionSheet)
+        
+        actionsheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionsheet.addAction(UIAlertAction(title: "Take Video", style: .default, handler: { [weak self] _ in
+            self?.presentCamera()
+        }))
+        actionsheet.addAction(UIAlertAction(title: "Choose Video", style: .default, handler: { [weak self] _ in
+            self?.presentVideoPicker()
+        }))
+        
+        present(actionsheet, animated: true)
+    }
+    
+    func presentCamera() {
+        let vc = UIImagePickerController()
+        vc.delegate = self
+        vc.sourceType = .camera
+        vc.allowsEditing = true
+        present(vc, animated: true)
+    }
+    
+    func presentVideoPicker() {
+        let vc = UIImagePickerController()
+        vc.delegate = self
+        vc.sourceType = .photoLibrary
+        vc.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
+        vc.allowsEditing = true
+        present(vc, animated: true)
+    }
+    
+    func documentDirectory() -> URL {
+      let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+      return documentsDirectory
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        guard let email = userNameLabel.text else {
+            return
+        }
+        let filename = "\(email)_profile_video.mov"
+        if let videoUrl = info[UIImagePickerController.InfoKey.mediaURL] as? NSURL {
+           print(videoUrl)
+            
+            let urlvid = self.documentDirectory().appendingPathComponent(filename)
+            let share = UIActivityViewController(activityItems: [urlvid], applicationActivities: nil)
+            share.popoverPresentationController?.sourceView = self.view
+            self.present(share, animated: true, completion: nil)
+            
+            if email == Auth.auth().currentUser?.email {
+                Storage.storage().reference().child("videos/\(filename)").putFile(from: videoUrl as URL, metadata: nil, completion: { (metadata, error) in
+                    if error != nil {
+                        print("Failed to upload video: \(String(describing: error))")
+                        return
+                    }
+                    Storage.storage().reference().child("videos/\(filename)").downloadURL(completion: {(url, error) in
+                        guard let url = url, error == nil else {
+                            print("Error downloading video file url: \(String(describing: error))")
+                            return
+                        }
+                        print("Url downloaded: \(url)")
+
+                    })
+                })
+            }
+            
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func uploadVideoTapped(_ sender: Any) {
+        print("Button Tapped!!!")
+    }
     
     @IBAction func signoutTapped(_ sender: Any) {
         let firebaseAuth = Auth.auth()
